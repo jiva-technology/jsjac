@@ -512,10 +512,11 @@ JSJaCIQ.prototype.setIQ = function(to,type,id) {
 /**
  * Creates a 'query' child node with given XMLNS
  * @param {String} xmlns The namespace for the 'query' node
+ * @param {String} [node] The 'node' attribute text for the 'query' node, optional. Author Stefan @ Jiva Technology 2008/12/22
  * @return The query node
  * @type {@link  http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-1950641247 Node}
  */
-JSJaCIQ.prototype.setQuery = function(xmlns) {
+JSJaCIQ.prototype.setQuery = function(xmlns, node) {
   var query;
   try {
     query = this.getDoc().createElementNS(xmlns,'query');
@@ -523,8 +524,10 @@ JSJaCIQ.prototype.setQuery = function(xmlns) {
     // fallback
     query = this.getDoc().createElement('query');
   }
-  if (query && query.getAttribute('xmlns') != xmlns) // fix opera 8.5x
+  if (query && query.getAttribute('xmlns') != xmlns) {
     query.setAttribute('xmlns',xmlns);
+    if (node) query.setAttribute('node',node);
+		} // fix opera 8.5x
   this.getNode().appendChild(query);
   return query;
 };
