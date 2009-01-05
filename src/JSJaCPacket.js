@@ -649,6 +649,124 @@ JSJaCMessage.prototype.getSubject = function() {
   return this.getChildVal('subject')
 };
 
+/**
+ * Author Stefan @ Jiva Technology 2009/01/05
+ * A jabber/XMPP pubsub Publish packet
+ * @class Models the XMPP notion of an 'pubsub leaf' packet
+ * @extends JSJaCPacket
+ */
+function JSJaCLeaf() {
+  /**
+   * @ignore
+   */
+  this.base = JSJaCIQ;
+  this.base('leaf');
+}
+JSJaCLeaf.prototype = new JSJaCPacket;
+
+JSJaCLeaf.prototype.setPubsub = function(xmlns, node) {
+	  var query;
+	  try {
+	    query = this.getDoc().createElementNS(xmlns,'pubsub');
+	  } catch (e) {
+	    // fallback
+	    query = this.getDoc().createElement('pubsub');
+	  }
+	  if (query && query.getAttribute('xmlns') != xmlns) {
+	    query.setAttribute('xmlns',xmlns);
+	  			} // fix opera 8.5x
+		
+	  this.getNode().appendChild(query);
+	  return query;
+}
+
+JSJaCLeaf.prototype.setPublish = function(node) {
+	pubsub = this.getChild('pubsub');
+	publish = this.getDoc().createElement('publish');
+	publish.setAttribute('node',node);
+	pubsub.appendChild(publish);
+	return pubsub;
+}
+
+JSJaCLeaf.prototype.createItem = function() {
+	publish = this.getChild('publish')
+	item = this.getDoc().createElement('item');
+	publish.appendChild(item);
+	entry = this.getDoc().createElementNS('http://www.w3.org/2005/Atom','entry')
+	item.appendChild(entry);
+	return publish;
+}
+
+JSJaCLeaf.prototype.setTitle = function(title) {
+	entry = this.getChild('entry');
+	titleelement = this.getDoc().createElement('title');
+	titletext = this.getDoc().createTextNode(title);
+	titleelement.appendChild(titletext);
+	entry.appendChild(titleelement);
+	return this;
+}
+
+JSJaCLeaf.prototype.setSummary = function(summary) {
+	entry = this.getChild('entry');
+	summaryel = this.getDoc().createElement('summary');
+	summarytext = this.getDoc().createTextNode(summary);
+	summaryel.appendChild(summarytext);
+	entry.appendChild(summaryel);
+	return this;
+}
+
+// JSJaCLeaf.prototype.setSummary = function(summary) {
+// 	this._setChildNode("summary",summary);
+//   return this;
+// }
+// 
+// JSJaCLeaf.prototype.setPublished = function(date) {
+// 	this._setChildNode("published",date);
+//   return this;
+// }
+
+
+
+/**
+ * Author Stefan @ Jiva Technology 2009/01/05
+ * Creates a 'pubsub' child node with given XMLNS
+ * @param {String} xmlns The namespace for the 'query' node
+ * @return The query node
+ */
+// JSJaCIQ.prototype.setPublish = function(xmlns, node, payload) {
+//   var query;
+//   try {
+//     query = this.getDoc().createElementNS(xmlns,'pubsub');
+//   } catch (e) {
+//     // fallback
+//     query = this.getDoc().createElement('pubsub');
+//   }
+//   if (query && query.getAttribute('xmlns') != xmlns) {
+//     query.setAttribute('xmlns',xmlns);
+// 		} // fix opera 8.5x
+// 		
+// 	publish = this.getDoc().createElement('publish');
+// 	publish.setAttribute('node',node);
+// 	
+// 	item = this.getDoc().createElement('item');
+// 	entry = this.getDoc().createElement('entry');
+// 	item.appendChild(entry);
+// 	title = this.getDoc().createElement('title');
+// 	summary = this.getDoc().createElement('summary');
+// 	published = this.getDoc().createElement('published');
+// 
+// 	entry.appendChild(title);
+// 	entry.appendChild(summary);
+// 	entry.appendChild(published);
+// 	
+// 	query.appendChild(publish);
+// 	query.appendChild(item);
+// 		
+//   this.getNode().appendChild(query);
+//   return query;
+// };
+
+
 
 /**
  * Tries to transform a w3c DOM node to JSJaC's internal representation
