@@ -715,16 +715,24 @@ JSJaCLeaf.prototype.setSummary = function(summary) {
 	return this;
 }
 
-// JSJaCLeaf.prototype.setSummary = function(summary) {
-// 	this._setChildNode("summary",summary);
-//   return this;
-// }
-// 
-// JSJaCLeaf.prototype.setPublished = function(date) {
-// 	this._setChildNode("published",date);
-//   return this;
-// }
+JSJaCLeaf.prototype.setPublished = function(date) {
+	entry = this.getChild('entry');
+	dateNode = this.getDoc().createElement('published');
+	date = this.getDoc().createTextNode(date);
+	dateNode.appendChild(date);
+	entry.appendChild(dateNode);
+	return this;
+}
 
+JSJaCLeaf.prototype.setItems = function(node, jid) {
+	pubsub = this.getChild('pubsub');
+	publish = this.getDoc().createElement('items');
+	publish.setAttribute('node',node);
+	publish.setAttribute('jid',jid);
+	pubsub.appendChild(publish);
+	return pubsub;
+	
+}
 
 
 /**
