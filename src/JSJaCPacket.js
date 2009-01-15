@@ -706,6 +706,15 @@ JSJaCLeaf.prototype.setTitle = function(title) {
 	return this;
 }
 
+JSJaCLeaf.prototype.setId = function(id) {
+	entry = this.getChild('entry');
+	titleelement = this.getDoc().createElement('id');
+	titletext = this.getDoc().createTextNode(title);
+	titleelement.appendChild(titletext);
+	entry.appendChild(titleelement);
+	return this;
+}
+
 JSJaCLeaf.prototype.setSummary = function(summary) {
 	entry = this.getChild('entry');
 	summaryel = this.getDoc().createElement('summary');
@@ -733,47 +742,6 @@ JSJaCLeaf.prototype.setItems = function(node, jid) {
 	return pubsub;
 	
 }
-
-
-/**
- * Author Stefan @ Jiva Technology 2009/01/05
- * Creates a 'pubsub' child node with given XMLNS
- * @param {String} xmlns The namespace for the 'query' node
- * @return The query node
- */
-// JSJaCIQ.prototype.setPublish = function(xmlns, node, payload) {
-//   var query;
-//   try {
-//     query = this.getDoc().createElementNS(xmlns,'pubsub');
-//   } catch (e) {
-//     // fallback
-//     query = this.getDoc().createElement('pubsub');
-//   }
-//   if (query && query.getAttribute('xmlns') != xmlns) {
-//     query.setAttribute('xmlns',xmlns);
-// 		} // fix opera 8.5x
-// 		
-// 	publish = this.getDoc().createElement('publish');
-// 	publish.setAttribute('node',node);
-// 	
-// 	item = this.getDoc().createElement('item');
-// 	entry = this.getDoc().createElement('entry');
-// 	item.appendChild(entry);
-// 	title = this.getDoc().createElement('title');
-// 	summary = this.getDoc().createElement('summary');
-// 	published = this.getDoc().createElement('published');
-// 
-// 	entry.appendChild(title);
-// 	entry.appendChild(summary);
-// 	entry.appendChild(published);
-// 	
-// 	query.appendChild(publish);
-// 	query.appendChild(item);
-// 		
-//   this.getNode().appendChild(query);
-//   return query;
-// };
-
 
 /**
  * Author Stefan @ Jiva Technology 2009/01/05
