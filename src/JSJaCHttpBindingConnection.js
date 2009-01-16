@@ -208,6 +208,7 @@ JSJaCHttpBindingConnection.prototype._getStreamID = function(slot) {
   this.oDbg.log(this._req[slot].r.responseText,4);
 
   if (!this._req[slot].r.responseXML || !this._req[slot].r.responseXML.documentElement) {
+	 this.oDbg.log('Hello There');	
     this._handleEvent('onerror',JSJaCError('503','cancel','service-unavailable'));
     return;
   }

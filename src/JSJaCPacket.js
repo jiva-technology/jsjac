@@ -526,11 +526,71 @@ JSJaCIQ.prototype.setQuery = function(xmlns, node) {
   }
   if (query && query.getAttribute('xmlns') != xmlns) {
     query.setAttribute('xmlns',xmlns);
-    if (node) query.setAttribute('node',node);
 		} // fix opera 8.5x
+  if (node) query.setAttribute('node',node);
   this.getNode().appendChild(query);
   return query;
 };
+
+/**
+ * Author Stefan @ Jiva Technology 2009/01/15
+ * Creates a 'command' child node with given XMLNS, node and status
+ * @param {String} [xmlns] The namespace for the 'command' node
+ * @param {String} [node] The 'node' attribute text for the 'command' node. 
+ * @param {String} [status] The 'status' attribute text for the 'command' node. 
+ * @return The query node
+ * @type {@link  http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-1950641247 Node}
+ */
+JSJaCIQ.prototype.setCommand = function(xmlns, node) {
+  var command;
+  try {
+    command = this.getDoc().createElementNS(xmlns,'command');
+  } catch (e) {
+    // fallback
+    command = this.getDoc().createElement('command');
+  }
+  if (command && command.getAttribute('xmlns') != xmlns) {
+    command.setAttribute('xmlns',xmlns);
+	} // fix opera 8.5x
+  if (node) command.setAttribute('node',node);
+  this.getNode().appendChild(command);
+  return command;
+};
+
+JSJaCIQ.prototype.setCommandX = function(xmlns, type) {
+	command = this.getChild('command')
+  var x;
+  try {
+    x = this.getDoc().createElementNS(xmlns,'x');
+  } catch (e) {
+    // fallback
+    x = this.getDoc().createElement('x');
+  }
+  if (x && x.getAttribute('xmlns') != xmlns) {
+    x.setAttribute('xmlns',xmlns);
+	} // fix opera 8.5x
+  if (type) x.setAttribute('type',type);
+  command.appendChild(x);
+  return x;
+};
+
+JSJaCIQ.prototype.setField = function(target,type,xVar,value) {
+	targ = this.getChild(target);
+	field = this.getDoc().createElement('field');
+	field.setAttribute('type',type);
+	field.setAttribute('var',xVar);
+	if (typeof(value)!=='undefined') {
+		for (i=0; i<value.length;i++) {
+			v = this.getDoc().createElement('value');
+			valuetext = this.getDoc().createTextNode(value[i]);
+			v.appendChild(valuetext);
+			field.appendChild(v);
+		}
+	}
+	HTH.log(target);
+	targ.appendChild(field);
+	return targ;	
+}
 
 /**
  * Gets the 'query' node of this packet
@@ -662,7 +722,7 @@ function JSJaCLeaf() {
   this.base = JSJaCIQ;
   this.base('leaf');
 }
-JSJaCLeaf.prototype = new JSJaCPacket;
+JSJaCLeaf.prototype = new JSJaCIQ;
 
 JSJaCLeaf.prototype.setPubsub = function(xmlns, node) {
 	  var query;
@@ -674,7 +734,7 @@ JSJaCLeaf.prototype.setPubsub = function(xmlns, node) {
 	  }
 	  if (query && query.getAttribute('xmlns') != xmlns) {
 	    query.setAttribute('xmlns',xmlns);
-	  			} // fix opera 8.5x
+	  } // fix opera 8.5x
 		
 	  this.getNode().appendChild(query);
 	  return query;
@@ -688,13 +748,18 @@ JSJaCLeaf.prototype.setPublish = function(node) {
 	return pubsub;
 }
 
-JSJaCLeaf.prototype.createItem = function() {
-	publish = this.getChild('publish')
+JSJaCLeaf.prototype.setItem = function() {
+	publish = this.getChild('publish');
 	item = this.getDoc().createElement('item');
 	publish.appendChild(item);
-	entry = this.getDoc().createElementNS('http://www.w3.org/2005/Atom','entry')
-	item.appendChild(entry);
 	return publish;
+}
+
+JSJaCLeaf.prototype.setEntry = function(xmlns) {
+	item = this.getChild('item');
+	entry = this.getDoc().createElementNS(xmlns,'entry')
+	item.appendChild(entry);
+	return item;
 }
 
 JSJaCLeaf.prototype.setTitle = function(title) {
@@ -708,10 +773,10 @@ JSJaCLeaf.prototype.setTitle = function(title) {
 
 JSJaCLeaf.prototype.setId = function(id) {
 	entry = this.getChild('entry');
-	titleelement = this.getDoc().createElement('id');
-	titletext = this.getDoc().createTextNode(title);
-	titleelement.appendChild(titletext);
-	entry.appendChild(titleelement);
+	idelement = this.getDoc().createElement('id');
+	idtext = this.getDoc().createTextNode(id);
+	idelement.appendChild(idtext);
+	entry.appendChild(idelement);
 	return this;
 }
 
