@@ -22,8 +22,10 @@ Copyright (c) 2002 Douglas Crockford  (www.JSLint.com) Rhino Edition
         for (var i = 0; i < JSLINT.errors.length; i += 1) {
             var e = JSLINT.errors[i];
             if (e) {
-                print('Lint at line ' + (e.line + 1) + ' character ' +
-                        (e.character + 1) + ': ' + e.reason);
+                print('jslint: Problem found in file ' + a[0] +
+                    ' at line ' + (e.line + 1) + 
+                    ' character ' + (e.character + 1) + ': ' + e.reason);
+
                 print((e.evidence || '').
                         replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1"));
                 print('');
