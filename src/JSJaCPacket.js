@@ -798,6 +798,15 @@ JSJaCLeaf.prototype.setPublished = function(date) {
 	return this;
 }
 
+JSJaCLeaf.prototype.setSubscribe = function(node, jid) {
+	pubsub = this.getChild('pubsub');
+	publish = this.getDoc().createElement('subscribe');
+	publish.setAttribute('node',node);
+	publish.setAttribute('jid',jid);
+	pubsub.appendChild(publish);
+	return pubsub;
+}
+
 JSJaCLeaf.prototype.setItems = function(node, jid) {
 	pubsub = this.getChild('pubsub');
 	publish = this.getDoc().createElement('items');
@@ -805,8 +814,8 @@ JSJaCLeaf.prototype.setItems = function(node, jid) {
 	publish.setAttribute('jid',jid);
 	pubsub.appendChild(publish);
 	return pubsub;
-	
 }
+
 
 /**
  * Author Stefan @ Jiva Technology 2009/01/05
