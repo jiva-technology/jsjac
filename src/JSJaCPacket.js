@@ -898,8 +898,6 @@ JSJaCVcard.prototype.setPhoto = function(photo, type) {
 	return this;
 }
 
-
-
 /**
  * Tries to transform a w3c DOM node to JSJaC's internal representation
  * (JSJaCPacket type, one of JSJaCPresence, JSJaCMessage, JSJaCIQ)
