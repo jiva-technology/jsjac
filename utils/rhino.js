@@ -22,7 +22,7 @@ Copyright (c) 2002 Douglas Crockford  (www.JSLint.com) Rhino Edition
         for (var i = 0; i < JSLINT.errors.length; i += 1) {
             var e = JSLINT.errors[i];
             if (e) {
-                print('jslint: Problem found in file ' + a[0] +
+                print('jslint: Problem found in ' + a[0] +
                     ' at line ' + (e.line + 1) + 
                     ' character ' + (e.character + 1) + ': ' + e.reason);
 
