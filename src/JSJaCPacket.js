@@ -685,6 +685,32 @@ JSJaCMessage.prototype.setThread = function(thread) {
   return this;
 };
 /**
+ * Author Stefan @ Jiva Technology 2009/04/23
+ * Sets the 'active' attribute for this message. This is used to identify
+ * the chatstates xmlns type
+ * @return this message
+ * @type JSJaCMessage
+ */
+JSJaCMessage.prototype.setChatState = function(type) {
+  
+  // valid states : active inactive composing paused gone
+  
+  var xmlns = 'http://jabber.org/protocol/chatstates';
+  var state;
+  try {
+    state = this.getDoc().createElementNS(xmlns,type);
+  } catch (e) {
+    // fallback
+    state = this.getDoc().createElement(type);
+  }
+  if (state && state.getAttribute('xmlns') != xmlns) {
+    state.setAttribute('xmlns',xmlns);
+		} // fix opera 8.5x
+  this.getNode().appendChild(state);
+  return state;
+};
+
+/**
  * Gets the 'thread' identifier for this message
  * @return A thread identifier
  * @type String
