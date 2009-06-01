@@ -833,6 +833,13 @@ JSJaCLeaf.prototype.setSubscribe = function(node, jid) {
 	return pubsub;
 }
 
+JSJaCLeaf.prototype.setSubscriptions = function() {
+	pubsub = this.getChild('pubsub');
+	publish = this.getDoc().createElement('subscriptions');
+	pubsub.appendChild(publish);
+	return pubsub;
+}
+
 JSJaCLeaf.prototype.setItems = function(node, jid) {
 	pubsub = this.getChild('pubsub');
 	publish = this.getDoc().createElement('items');
