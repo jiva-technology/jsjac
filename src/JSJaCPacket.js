@@ -600,6 +600,16 @@ JSJaCIQ.prototype.setField = function(target,type,xVar,value) {
 JSJaCIQ.prototype.getQuery = function() {
   return this.getNode().getElementsByTagName('query').item(0);
 };
+
+/**
+ * Gets the 'query' node of this packet
+ * @return The query node
+ * @type {@link  http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-1950641247 Node}
+ */
+JSJaCIQ.prototype.getSubscriptions = function() {
+  return this.getNode().getElementsByTagName('subscriptions').item(0);
+};
+
 /**
  * Gets the XMLNS of the query node contained within this packet
  * @return The namespace of the query node
