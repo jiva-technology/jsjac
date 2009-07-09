@@ -850,10 +850,6 @@ JSJaCLeaf.prototype.setSubscribe = function(node, jid) {
 	return pubsub;
 }
 
-JSJaCLeaf.prototype.setSubscriptions = function() {
-	pubsub = this.getChild('pubsub');
-	publish = this.getDoc().createElement('subscriptions');
-
 JSJaCLeaf.prototype.setUnsubscribe = function(node, jid) {
 	pubsub = this.getChild('pubsub');
 	publish = this.getDoc().createElement('unsubscribe');
