@@ -602,7 +602,7 @@ JSJaCIQ.prototype.getQuery = function() {
 };
 
 /**
- * Gets the 'query' node of this packet
+ * Gets the 'subscriptions' node of this packet
  * @return The query node
  * @type {@link  http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/core.html#ID-1950641247 Node}
  */
@@ -834,6 +834,13 @@ JSJaCLeaf.prototype.setPublished = function(date) {
 	return this;
 }
 
+JSJaCLeaf.prototype.setSubscriptions = function() {
+  pubsub = this.getChild('pubsub');
+	elm = this.getDoc().createElement('subscriptions');
+	pubsub.appendChild(elm);
+	return pubsub;
+}
+
 JSJaCLeaf.prototype.setSubscribe = function(node, jid) {
 	pubsub = this.getChild('pubsub');
 	publish = this.getDoc().createElement('subscribe');
@@ -846,6 +853,12 @@ JSJaCLeaf.prototype.setSubscribe = function(node, jid) {
 JSJaCLeaf.prototype.setSubscriptions = function() {
 	pubsub = this.getChild('pubsub');
 	publish = this.getDoc().createElement('subscriptions');
+
+JSJaCLeaf.prototype.setUnsubscribe = function(node, jid) {
+	pubsub = this.getChild('pubsub');
+	publish = this.getDoc().createElement('unsubscribe');
+	publish.setAttribute('node',node);
+	publish.setAttribute('jid',jid);
 	pubsub.appendChild(publish);
 	return pubsub;
 }
