@@ -246,6 +246,10 @@ JSJaCPacket.prototype.isError = function() {
   return (this.getType() == 'error');
 };
 
+JSJaCPacket.prototype.getErrorType = function() {
+  return this.getChild('error').firstChild.tagName;
+};
+
 /**
  * Returns an error condition reply according to {@link http://www.xmpp.org/extensions/xep-0086.html XEP-0086}. Creates a clone of the calling packet with senders and recipient exchanged and error stanza appended.
  * @param {STANZA_ERROR} stanza_error an error stanza containing error cody, type and condition of the error to be indicated
